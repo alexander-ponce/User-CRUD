@@ -1,5 +1,7 @@
-# import the function that will return an instance of a connection
-from mysqlconnection import connectToMySQL
+from flask_app.config.mysqlconnection import connectToMySQL
+from flask import flash
+import re
+EMAIL_REGEX= re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 # model the class after the friend table from our database
 class Users:
     DB = "users_schema"
@@ -24,9 +26,8 @@ class Users:
         return users
     
     @classmethod
-    def get_one(cls, user_id):
-        query = "SELECT * FROM users WHERE id = %(id)s";
-        data = {'id':user_id}
+    def get_one(cls, data):
+        query = "SELECT * FROM users WHERE id = %(id)s;"
         results = connectToMySQL(cls.DB).query_db(query, data)
         return cls(results[0])
 
@@ -43,12 +44,6 @@ class Users:
         result = connectToMySQL(cls.DB).query_db(query,data)
         return result
 
-    @classmethod
-    def get_one(cls, data):
-        query = "SELECT * FROM users WHERE id = %(id)s";
-        # data = {'id':user_id}
-        results = connectToMySQL(cls.DB).query_db(query, data)
-        return cls(results[0])
 
     @classmethod
     def update(cls,data):
@@ -72,6 +67,21 @@ class Users:
         
         result = connectToMySQL(cls.DB).query_db(query,data)
         return result
+
+    @staticmethod
+    def validated_user(form_data):
+        is_valid = True
+        if len(form_data["first_name"]) < 3:
+            flash("First name must be at least 3 characters.")
+            is_valid = False
+        if len(form_data["last_name"]) < 3:
+            flash("Last name must be at least 3 characters.")
+            is_valid = False
+        if not EMAIL_REGEX.match(form_data["email"]):
+            flash ("Invalid email address.")
+            is_valid = False
+        
+        return is_valid
 
 
         # return connectToMySQL('first_flask').query_db( query, data )

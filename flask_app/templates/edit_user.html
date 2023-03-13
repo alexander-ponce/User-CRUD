@@ -13,31 +13,35 @@
 
 	</head>
 	
-	<body class="bg-dark">
+<body class="bg-dark ">
         
         
-		<form action="/input_user" method="post" class="bg-light text-primary p-5 rounded col-5 mx-auto mt-5" name="user">
+		<form action='/user/update' method="post" class="bg-light text-primary p-5 rounded col-5 mx-auto mt-5" name="user" >
             <a href="/display_users" class="d-flex justify-content-end text-warning">Home</a>
             <div>
-			<h1 class="text-info">Add a New User</h1>
+			<h1 class="text-info">Edit User {{user.first_name}}</h1>
+            <input type="hidden" name="id" value="{{user.id}}">
             </div>
 			
 			<div class="form-group">
 				<label for="first_name">First Name:</label>
-				<input type="text" name="first_name" class="form-control">
+				<input type="text" name="first_name" class="form-control" value="{{user.first_name}}">
 			</div><br>
 
 			<div class="form-group">
 				<label for="last_name">Last Name:</label>
-				<input type="text" name="last_name" class="form-control">
+				<input type="text" name="last_name" class="form-control" value="{{user.last_name}}">
 			</div><br>
 
 			<div class="form-group">
 				<label for="email">Email:</label>
-				<input type="text" name="email" class="form-control">
+				<input type="text" name="email" class="form-control" value="{{user.email}}">
 			</div><br>
 
-			<input type="submit" value="Create" class="btn btn-primary">
+            <div class="d-flex align-items-center">
+			    <input type="submit" value="Update" class="btn btn-primary" >
+                <a href='/user/show/{{user.id}}' class="text-white mx-5 align-items-center">Show User</a>
+            </div>
             
 		</form>
 	</body>

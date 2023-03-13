@@ -13,35 +13,39 @@
 
 	</head>
 	
-	<body class="bg-dark ">
+	<body class="bg-dark">
         
         
-		<form action='/user/update' method="post" class="bg-light text-primary p-5 rounded col-5 mx-auto mt-5" name="user" >
+		<form action="/input_user" method="post" class="bg-light text-primary p-5 rounded col-5 mx-auto mt-5" name="user">
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					{% for message in messages %}
+						<p>{{message}}</p>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+
             <a href="/display_users" class="d-flex justify-content-end text-warning">Home</a>
             <div>
-			<h1 class="text-info">Edit User {{user.first_name}}</h1>
-            <input type="hidden" name="id" value="{{user.id}}">
+			<h1 class="text-info">Add a New User</h1>
             </div>
 			
 			<div class="form-group">
 				<label for="first_name">First Name:</label>
-				<input type="text" name="first_name" class="form-control" value="{{user.first_name}}">
+				<input type="text" name="first_name" class="form-control">
 			</div><br>
 
 			<div class="form-group">
 				<label for="last_name">Last Name:</label>
-				<input type="text" name="last_name" class="form-control" value="{{user.last_name}}">
+				<input type="text" name="last_name" class="form-control">
 			</div><br>
 
 			<div class="form-group">
 				<label for="email">Email:</label>
-				<input type="text" name="email" class="form-control" value="{{user.email}}">
+				<input type="text" name="email" class="form-control">
 			</div><br>
 
-            <div class="d-flex align-items-center">
-			    <input type="submit" value="Update" class="btn btn-primary" >
-                <a href='/user/show/{{user.id}}' class="text-white mx-5 align-items-center">Show User</a>
-            </div>
+			<input type="submit" value="Create" class="btn btn-primary">
             
 		</form>
 	</body>
